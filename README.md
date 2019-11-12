@@ -1,6 +1,8 @@
 # animated_button
 
-A new Flutter application.
+![](animatedButton.gif)
+
+Simple animated button created in flutter
 
 ## Getting Started
 
