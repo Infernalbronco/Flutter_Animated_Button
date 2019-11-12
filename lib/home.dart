@@ -12,14 +12,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
+
+  //to control the fading-in and fading-out of text and icon
   Animation<double> animation1, animation2;
 
   AnimationController animationController1;
 
+  //Keeps track of state of the button
   Current_state _currentState;
 
   double _height;
 
+
+  //Executed every time setstate() is called
   @override
   void initState() {
     super.initState();
@@ -30,8 +35,10 @@ class _MyHomePageState extends State<MyHomePage>
     animationController1 = AnimationController(
         duration: Duration(milliseconds: 1030), vsync: this);
 
+    //Needed to synchronize fading-in and fading-out
     Tween<double> t1 = Tween(begin: 1.0, end: 0.0);
 
+    //Controls Fading-out
     animation1 = Tween<double>(begin: 1.0, end: 0.0).animate(CurvedAnimation(
       parent: animationController1,
       curve: Interval(
@@ -41,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage>
       ),
     ));
 
+    //Controls Fading-in
     animation2 = ReverseTween<double>(t1).animate(CurvedAnimation(
       curve: Curves.easeInOut,
       parent: animationController1,
@@ -51,19 +59,19 @@ class _MyHomePageState extends State<MyHomePage>
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: Container(
+      body: Container(//Covers the entire screen
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        child: Stack(
+        child: Stack(//To store all the three buttons
           children: <Widget>[
-            AnimatedPositioned(
+            AnimatedPositioned(//changes postion
               duration: Duration(seconds: 1),
               left: (_currentState == Current_state.SHOW_BUTTON) ? 0 : 120.0,
-              child: AnimatedOpacity(
+              child: AnimatedOpacity(//changes opacity
                 duration: Duration(milliseconds: 1000),
                 opacity: (_currentState == Current_state.SHOW_BUTTON) ? 0 : 1.0,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 320.0, left: 100.0),
+                  padding: EdgeInsets.only(top: 320.0, left: 100.0),//Change the values to change the positioning of button
                   child: Material(
                     elevation: 10.0,
                     borderRadius: BorderRadius.circular(10.0),
@@ -94,14 +102,14 @@ class _MyHomePageState extends State<MyHomePage>
                 ),
               ),
             ),
-            AnimatedPositioned(
+            AnimatedPositioned(//Changes position
               duration: Duration(seconds: 1),
               left: (_currentState == Current_state.SHOW_BUTTON) ? 0 : 60.0,
-              child: AnimatedOpacity(
+              child: AnimatedOpacity(//Changes opacity
                 duration: Duration(milliseconds: 1000),
                 opacity: (_currentState == Current_state.SHOW_BUTTON) ? 0 : 1.0,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 320.0, left: 100.0),
+                  padding: EdgeInsets.only(top: 320.0, left: 100.0),//Change the values to change the positioning of button
                   child: Material(
                     elevation: 10.0,
                     borderRadius: BorderRadius.circular(10.0),
@@ -133,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage>
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 320.0, left: 100.0),
+              padding: EdgeInsets.only(top: 320.0, left: 100.0),//Change the values to change the positioning of button
               child: Material(
                 elevation: 10.0,
                 borderRadius: BorderRadius.circular(10.0),
@@ -147,6 +155,11 @@ class _MyHomePageState extends State<MyHomePage>
                       setState(() {
                         _height = (_height == 170.0) ? 50.0 : 170.0;
 
+                        /*
+                          Changing the state on tap
+                          depending upon condition
+                          and starting the animation
+                        */
                         if (_currentState == Current_state.SHOW_BUTTON) {
                           _currentState = Current_state.SHOW_CANCEL;
                           animationController1.forward();
@@ -221,6 +234,16 @@ class _MyHomePageState extends State<MyHomePage>
 }
 
 enum Current_state {
+
+  /*
+    State in which button is expanded
+    from and has text and icon
+  */
   SHOW_BUTTON,
+
+  /*
+    State in which button is contracted
+    and has only icon
+  */
   SHOW_CANCEL,
 }
